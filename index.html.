@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enactus REC | Creating Impact Together</title>
+<meta name="description" content="The social entrepreneurship club of Rajalakshmi Engineering College, Chennai.">
+<style>
+  /* ---------- 1. Colors (light + dark mode) ---------- */
+  :root {
+    --bg: #FCFCF7;
+    --surface: #FFFFFF;
+    --ink: #1C2B24;
+    --ink-soft: #52625A;
+    --line: #DCE3DD;
+    --leaf: #1F5C43;
+    --marigold: #E9A21B;
+    --on-leaf: #FFFFFF;
+    --error: #B3261E;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #131B17;
+      --surface: #1B2621;
+      --ink: #E8EEEA;
+      --ink-soft: #A7B6AE;
+      --line: #2E3D36;
+      --leaf: #6FC39C;
+      --marigold: #F2B84B;
+      --on-leaf: #0F1A15;
+      --error: #F2B8B5;
+      color-scheme: dark;
+    }
+  }
+
+  /* ---------- 2. Base styles ---------- */
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.0625rem; line-height: 1.7;
+  }
+  h1, h2, h3, nav, .btn, .project-head, label, input, select, textarea, .tag {
+    font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  }
+  h1, h2, h3 { margin: 0; line-height: 1.1; letter-spacing: -0.01em; }
+  a { color: var(--leaf); }
+  :focus-visible { outline: 3px solid var(--marigold); outline-offset: 3px; border-radius: 4px; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ---------- 3. Header & navigation ---------- */
+  header.site { border-bottom: 1px solid var(--line); position: relative; }
+  header.site .wrap { display: flex; justify-content: space-between; align-items: center; padding-top: 1rem; padding-bottom: 1rem; }
+  .brand { font-family: "Avenir Next", "Segoe UI", Arial, sans-serif; font-weight: 800; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
+  .brand span { color: var(--marigold); }
+  nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.5rem; }
+  nav a { color: var(--ink-soft); text-decoration: none; font-size: .95rem; }
+  nav a:hover { color: var(--ink); }
+  .menu-btn { display: none; background: none; border: 1px solid var(--line); color: var(--ink); border-radius: 6px; padding: .4rem .7rem; font: inherit; font-size: .9rem; cursor: pointer; }
+
+  /* ---------- 4. Home (hero + intro) ---------- */
+  .hero { padding: 4.5rem 0 4rem; }
+  .hero h1 { font-size: clamp(2.6rem, 7vw, 5rem); font-weight: 800; max-width: 12ch; }
+  .hero p { font-size: 1.2rem; color: var(--ink-soft); max-width: 46ch; margin: 1.5rem 0 2.25rem; }
+  .btn { display: inline-block; padding: .8rem 1.4rem; border-radius: 6px; font-weight: 700; text-decoration: none; background: var(--leaf); color: var(--on-leaf); border: 0; font-size: 1rem; cursor: pointer; }
+  .btn.secondary { background: transparent; color: var(--ink); border: 2px solid var(--ink); margin-left: .6rem; }
+  .hero-band { height: 10px; background: linear-gradient(90deg, var(--leaf) 0 70%, var(--marigold) 70% 100%); }
+
+  section.block { padding: 4.5rem 0; }
+  section.block + section.block { border-top: 1px solid var(--line); }
+  section.block h2 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; margin-bottom: 1.25rem; }
+  .lead { max-width: 62ch; color: var(--ink-soft); }
+
+  .about-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 3rem; align-items: start; }
+  .facts { background: var(--surface); border-left: 4px solid var(--marigold); padding: 1.5rem; }
+  .facts dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: .6rem 1.25rem; }
+  .facts dt { font-family: "Avenir Next", "Segoe UI", Arial, sans-serif; font-weight: 700; }
+  .facts dd { margin: 0; color: var(--ink-soft); }
+
+  /* ---------- 5. Our projects ---------- */
+  .projects { margin-top: 2rem; border-top: 2px solid var(--ink); }
+  .project { border-bottom: 2px solid var(--ink); }
+  .project-head {
+    width: 100%; background: none; border: 0; color: var(--ink); cursor: pointer; text-align: left;
+    display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 0;
+    font-size: clamp(1.8rem, 5vw, 3.2rem); font-weight: 800;
+  }
+  .project-head:hover { color: var(--leaf); }
+  .project-head .sign { font-size: 1.6rem; color: var(--marigold); transition: transform .25s ease; }
+  .project-head[aria-expanded="true"] .sign { transform: rotate(45deg); }
+  .project-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .3s ease; }
+  .project-body > div { overflow: hidden; }
+  .project-body p { margin: 0 0 1.5rem; max-width: 60ch; color: var(--ink-soft); }
+  .project.open .project-body { grid-template-rows: 1fr; }
+
+  .impact { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 3rem; }
+  .impact h3 { font-size: 1.2rem; margin-bottom: .4rem; }
+  .impact p { margin: 0; color: var(--ink-soft); font-size: 1rem; }
+
+  .project-body p.result { margin-top: -0.75rem; color: var(--ink); font-weight: 600; font-family: "Avenir Next", "Segoe UI", Arial, sans-serif; font-size: .98rem; }
+
+  /* ---------- 6. Join the team (form) ---------- */
+  .join-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 3rem; align-items: start; }
+  .form-card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 1.75rem; }
+  .field { margin-bottom: 1.1rem; }
+  label { display: block; font-weight: 600; font-size: .95rem; margin-bottom: .35rem; }
+  .optional { font-weight: 400; color: var(--ink-soft); }
+  input, select, textarea {
+    width: 100%; padding: .7rem .8rem; font-size: 1rem; color: var(--ink);
+    background: var(--bg); border: 1px solid var(--line); border-radius: 6px;
+  }
+  textarea { min-height: 110px; resize: vertical; }
+  input[aria-invalid="true"], select[aria-invalid="true"] { border-color: var(--error); }
+  .error { color: var(--error); font-size: .85rem; margin-top: .3rem; font-family: "Avenir Next", "Segoe UI", Arial, sans-serif; }
+  .success { border-left: 4px solid var(--leaf); padding: 1rem 1.25rem; background: var(--bg); }
+  .success h3 { font-size: 1.3rem; margin-bottom: .3rem; }
+  .success p { margin: 0; color: var(--ink-soft); }
+
+  footer { border-top: 1px solid var(--line); padding: 2rem 0; color: var(--ink-soft); font-size: .9rem; }
+
+  /* ---------- 7. Mobile layout ---------- */
+  @media (max-width: 760px) {
+    .menu-btn { display: block; }
+    nav ul { display: none; position: absolute; left: 0; right: 0; top: 100%; flex-direction: column; gap: 0;
+      background: var(--surface); border-bottom: 1px solid var(--line); padding: .5rem 1.5rem; z-index: 10; }
+    nav ul.open { display: flex; }
+    nav li a { display: block; padding: .75rem 0; }
+    .about-grid, .impact, .join-grid { grid-template-columns: 1fr; }
+    .hero { padding: 3rem 0 3rem; }
+    .btn.secondary { margin: .75rem 0 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header: club name + navigation -->
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#home">Enactus <span>REC</span></a>
+    <nav aria-label="Main">
+      <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu">Menu</button>
+      <ul id="menu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#projects">Our projects</a></li>
+        <li><a href="#join">Join the team</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- ===== HOME: introduction ===== -->
+  <div id="home">
+    <div class="wrap hero">
+      <h1>Creating impact together.</h1>
+      <p>Enactus REC is the social entrepreneurship club of Rajalakshmi Engineering College, Chennai. We turn student ideas into sustainable projects that help communities stand on their own.</p>
+      <a class="btn" href="#projects">See our projects</a>
+      <a class="btn secondary" href="#join">Join the team</a>
+    </div>
+    <div class="hero-band" aria-hidden="true"></div>
+
+    <section class="block">
+      <div class="wrap about-grid">
+        <div>
+          <h2>Who we are</h2>
+          <p class="lead">Enactus REC started in 2008 with one belief: social entrepreneurship, done with integrity and passion, can change lives. Originally known as SIFE REC (Students In Free Enterprise), we help people become self-reliant entrepreneurs who create opportunities for themselves and others.</p>
+        </div>
+        <aside class="facts" aria-label="Quick facts">
+          <dl>
+            <dt>Founded</dt><dd>2008</dd>
+            <dt>Formerly</dt><dd>SIFE REC</dd>
+            <dt>Campus</dt><dd>Rajalakshmi Engineering College, Chennai</dd>
+            <dt>Impact</dt><dd>3,500+ people reached through Project Parisutham</dd>
+          </dl>
+        </aside>
+      </div>
+    </section>
+  </div>
+
+  <!-- ===== OUR PROJECTS: sustainability & social impact ===== -->
+  <section class="block" id="projects">
+    <div class="wrap">
+      <h2>Our projects</h2>
+      <p class="lead">Each project uses a sustainable business model to create lasting social impact. Tap a project to learn more.</p>
+      <div class="projects">
+        <div class="project">
+          <button class="project-head" aria-expanded="false">Project Parisutham <span class="sign" aria-hidden="true">+</span></button>
+          <div class="project-body"><div>
+            <p><strong>2014, Ennore.</strong> Worked with a community still recovering from the tsunami to make and sell good-quality phenyl cleaning liquid. Members were trained in production, packaging, marketing and managing money, and won bulk orders from shops and government offices. Demand rose sharply during the cleanup after the Chennai floods.</p>
+            <p class="result">12 entrepreneurs created, 48 people impacted directly and about 3,500 indirectly.</p>
+          </div></div>
+        </div>
+        <div class="project">
+          <button class="project-head" aria-expanded="false">Project Dhaniyam <span class="sign" aria-hidden="true">+</span></button>
+          <div class="project-body"><div>
+            <p><strong>2016, MMDA Colony.</strong> A healthier alternative to junk food: cashew-topped ragi ladoos made from millets. A local homemaker was trained by a millet-cooking expert, and the ladoos went on to win regular orders from shops and temples across the city.</p>
+            <p class="result">She now leads a team of 10 women, each earning around ₹5,000 a month.</p>
+          </div></div>
+        </div>
+        <div class="project">
+          <button class="project-head" aria-expanded="false">Project Kaagidam <span class="sign" aria-hidden="true">+</span></button>
+          <div class="project-body"><div>
+            <p><strong>2016, with Shri Arunudayam NGO.</strong> Making notebooks that are good quality but affordable, so children from low-income families can keep studying without the cost of stationery holding them back.</p>
+            <p class="result">Around 10 people benefited by working on the project.</p>
+          </div></div>
+        </div>
+      </div>
+
+      <div class="impact">
+        <div><h3>Sustainable by design</h3><p>Projects are built to keep running on their own, not to depend on one-time help.</p></div>
+        <div><h3>Awareness in the city</h3><p>Campaigns and programmes across Chennai on issues that matter to local communities.</p></div>
+        <div><h3>Skills on campus</h3><p>Workshops on business ideas and marketing, plus hands-on entrepreneurial events at REC.</p></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== JOIN THE TEAM: volunteer interest form ===== -->
+  <section class="block" id="join">
+    <div class="wrap join-grid">
+      <div>
+        <h2>Join the team</h2>
+        <p class="lead">Whether you love business, design, tech or working with people, there's a place for you. Tell us a little about yourself and we'll get in touch.</p>
+      </div>
+
+      <div class="form-card" id="formCard">
+        <form id="interestForm" novalidate>
+          <div class="field">
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" autocomplete="name" aria-describedby="name-error">
+            <div class="error" id="name-error"></div>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" autocomplete="email" aria-describedby="email-error">
+            <div class="error" id="email-error"></div>
+          </div>
+          <div class="field">
+            <label for="dept">Department and year</label>
+            <input id="dept" name="dept" type="text" placeholder="e.g. ECE, 2nd year" aria-describedby="dept-error">
+            <div class="error" id="dept-error"></div>
+          </div>
+          <div class="field">
+            <label for="interest">Where would you like to help?</label>
+            <select id="interest" name="interest" aria-describedby="interest-error">
+              <option value="">Choose one</option>
+              <option>Projects and field work</option>
+              <option>Marketing and design</option>
+              <option>Web and tech</option>
+              <option>Events and operations</option>
+              <option>Not sure yet</option>
+            </select>
+            <div class="error" id="interest-error"></div>
+          </div>
+          <div class="field">
+            <label for="why">Why do you want to join? <span class="optional">(optional)</span></label>
+            <textarea id="why" name="why"></textarea>
+          </div>
+          <button class="btn" type="submit">Send my interest</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© <span id="year"></span> Enactus REC, Rajalakshmi Engineering College, Chennai</div>
+</footer>
+
+<script>
+  // 1. Mobile menu: show/hide the nav links
+  const menuBtn = document.getElementById("menuBtn");
+  const menu = document.getElementById("menu");
+  menuBtn.addEventListener("click", () => {
+    const open = menu.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", open);
+  });
+  menu.querySelectorAll("a").forEach(link =>
+    link.addEventListener("click", () => {
+      menu.classList.remove("open");
+      menuBtn.setAttribute("aria-expanded", "false");
+    })
+  );
+
+  // 2. Projects: open one project at a time
+  document.querySelectorAll(".project-head").forEach(head => {
+    head.addEventListener("click", () => {
+      const project = head.parentElement;
+      const isOpen = project.classList.contains("open");
+      document.querySelectorAll(".project").forEach(p => {
+        p.classList.remove("open");
+        p.querySelector(".project-head").setAttribute("aria-expanded", "false");
+      });
+      if (!isOpen) {
+        project.classList.add("open");
+        head.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
+
+  // 3. Volunteer form: check required fields, then show a thank-you message
+  const form = document.getElementById("interestForm");
+  const rules = {
+    name:     v => v.trim() ? "" : "Enter your name.",
+    email:    v => /^\S+@\S+\.\S+$/.test(v) ? "" : "Enter a valid email, like name@example.com.",
+    dept:     v => v.trim() ? "" : "Enter your department and year.",
+    interest: v => v ? "" : "Choose an area you'd like to help with."
+  };
+
+  form.addEventListener("submit", e => {
+    e.preventDefault();               // stop the page from reloading
+    let firstBad = null;
+    for (const id in rules) {
+      const input = document.getElementById(id);
+      const msg = rules[id](input.value);
+      document.getElementById(id + "-error").textContent = msg;
+      input.setAttribute("aria-invalid", msg ? "true" : "false");
+      if (msg && !firstBad) firstBad = input;
+    }
+    if (firstBad) { firstBad.focus(); return; }
+
+    // NOTE: this concept site doesn't save responses yet.
+    // To collect them for real, connect the form to Google Forms or Formspree.
+    const name = document.getElementById("name").value.trim().split(" ")[0];
+    document.getElementById("formCard").innerHTML =
+      `<div class="success" role="status"><h3>Thanks, ${name.replace(/</g, "&lt;")}!</h3>
+       <p>Your interest has been sent. The Enactus REC team will reach out by email.</p></div>`;
+  });
+
+  // 4. Footer year updates automatically
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
